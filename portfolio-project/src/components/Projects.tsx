@@ -1,161 +1,337 @@
 "use client";
-import { motion, Variants } from "framer-motion";
-import { FiTerminal, FiCpu, FiGlobe } from "react-icons/fi";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiGlobe, FiCpu, FiSmartphone, FiX, FiArrowRight, FiArrowLeft, FiLayers, FiCheckCircle, FiTerminal, FiCommand } from "react-icons/fi";
 
-type Project = {
+// --- TYPES ---
+// Ajout du type "Bot" pour Hati
+type ProjectType = "Fullstack" | "Microservices" | "Mobile" | "Bot";
+
+interface Project {
+  id: number;
   title: string;
+  subtitle: string;
   company: string;
   period: string;
-  desc: string;
-  details: string[];
+  type: ProjectType;
+  // Contenu "Teaser" (Carte)
+  shortDesc: string;
   tags: string[];
-  type: "Fullstack" | "Microservices" | "Mobile";
-};
+  // Contenu "Détaillé" (Modal)
+  context: string;
+  challenge: string;
+  solution: string[];
+  stack: string[];
+  results: string[];
+}
 
+// --- DATA ---
 const projects: Project[] = [
   {
+    id: 4, // ID en premier pour le mettre en avant (optionnel)
+    title: "Hati Bot",
+    subtitle: "Orchestrateur Vocal & Automation",
+    company: "Projet Communautaire",
+    period: "2025",
+    type: "Bot",
+    shortDesc: "Bot Discord pilotant la création dynamique de salons vocaux (Auto-Room) avec interface de gestion interactive complète.",
+    tags: ["Python", "Discord.py", "AsyncIO", "Event-Driven"],
+    context: "Gestion d'une communauté gaming active nécessitant des salons vocaux flexibles. Les utilisateurs avaient besoin de créer leurs propres espaces sans attendre un administrateur.",
+    challenge: "Créer un système 'Auto-Room' capable de gérer le cycle de vie des salons (création, suppression vide, transfert de droits) tout en offrant une UI intuitive sans commandes textuelles complexes.",
+    solution: [
+      "Architecture Événementielle (Event-Driven) basée sur les 'Voice State Updates' pour une réactivité immédiate.",
+      "Conception d'une UI persistante (View Class) avec Menus Déroulants (Select) et Boutons pour la configuration (Taille, Jeu, Ban).",
+      "Algorithme de 'Host Migration' : réassignation automatique des droits d'admin si l'hôte quitte le salon.",
+      "Système de commandes Slash (/invite) avec génération d'Embeds dynamiques."
+    ],
+    stack: ["Python 3.10", "Lib Discord.py", "AsyncIO", "JSON (Config)", "Git"],
+    results: ["Autonomie totale des membres (+100 salons/jour)", "Zéro canal 'fantôme' (nettoyage auto)", "UX Ludique avec catégories de jeux"]
+  },
+  {
+    id: 1,
     title: "Portail V2 & eDAP",
+    subtitle: "Refonte Architecture & Digitalisation",
     company: "Arcade Informatique",
-    period: "10/2023 - 09/2025",
-    desc: "Refonte d'un monolithe en architecture autonome et digitalisation d'un workflow réglementaire.",
-    details: [
-      "Architecture .NET 9 & React 18",
-      "Pilotage Agile via Azure DevOps",
-      "Rédaction du cahier des charges CRM"
-    ],
-    tags: [".NET 9", "React", "TypeScript", "SQL Server", "DevOps"],
+    period: "2023 - 2025",
     type: "Fullstack",
+    shortDesc: "Migration d'un monolithe Legacy vers une architecture modulaire .NET 9 / React. Digitalisation de procédures judiciaires.",
+    tags: [".NET 9", "React 18", "Clean Arch", "CQRS"],
+    context: "Modernisation d'un ERP métier vieillissant (WebForms) pour les huissiers/commissaires de justice. Nécessité de créer un module 'eDAP' (Demande d'Autorisation de Poursuite) entièrement dématérialisé.",
+    challenge: "Découpler la logique métier d'un monolithe historique tout en assurant la continuité de service. Gérer des workflows complexes de validation juridique et de signature électronique.",
+    solution: [
+      "Mise en place d'une Clean Architecture avec le pattern CQRS (MediatR) pour séparer les commandes et les requêtes.",
+      "Développement d'une API RESTful .NET 9 consommée par un front React 18 / TypeScript.",
+      "Intégration de pipelines Azure DevOps pour le CI/CD et l'automatisation des tests.",
+      "Gestion de la génération de PDF dynamiques et signature via API tierce."
+    ],
+    stack: [".NET 9", "React 18", "Entity Framework", "SQL Server", "Azure DevOps", "MediatR"],
+    results: ["Gain de performance de 40% sur les requêtes", "Maintenance facilitée par le découpage modulaire", "Adoption utilisateur réussie pour le module eDAP"]
   },
   {
+    id: 2,
     title: "Microservice DEP",
+    subtitle: "Gestion de Dossiers Juridiques",
     company: "SEPTEO (Solutions Avocats)",
-    period: "09/2022 - 10/2023",
-    desc: "Conception et développement d'un workflow de gestion de dossiers juridiques.",
-    details: [
-      "Optimisation SQL (Dapper) & xUnit",
-      "Monitoring Grafana & Kusto",
-      "Audit de code via SonarQube"
-    ],
-    tags: ["Angular 15", ".NET Core", "Docker", "SonarQube", "CI/CD"],
+    period: "2022 - 2023",
     type: "Microservices",
+    shortDesc: "Conception d'un service critique de gestion de dossiers au sein d'un écosystème distribué pour avocats.",
+    tags: ["Angular", ".NET Core", "Dapper", "Docker"],
+    context: "Au sein de la 'Solution Avocats', besoin d'isoler la logique de gestion des Dossiers Électroniques Partagés (DEP) pour améliorer la scalabilité.",
+    challenge: "Optimiser les performances sur des volumes de données importants et garantir l'intégrité des données juridiques sensibles.",
+    solution: [
+      "Utilisation de l'ORM Dapper pour les requêtes critiques nécessitant une haute performance (vs Entity Framework).",
+      "Architecture Microservices conteneurisée avec Docker.",
+      "Mise en place de tests unitaires robustes (xUnit) et analyse statique (SonarQube) pour garantir zéro régression."
+    ],
+    stack: ["Angular 15", ".NET Core 6", "Dapper", "Docker", "SonarQube", "Kusto"],
+    results: ["Réduction du temps de réponse API", "Architecture découplée et résiliente", "Code coverage > 80%"]
   },
   {
-    title: "Massia-Laboratoire",
+    id: 3,
+    title: "Massia Mobile",
+    subtitle: "Application Terrain Offline",
     company: "Arcade Informatique",
-    period: "10/2021 - 11/2021",
-    desc: "Développement d'une application mobile avec prise de vue géolocalisée et mode hors-ligne.",
-    details: [
-      "Implémentation de la persistance locale",
-      "Module Photo & GPS intégré",
-      "Stack hybride Ionic/Angular"
-    ],
-    tags: ["Ionic", "Angular", "C# (ASP.NET)", "SQL Server"],
+    period: "2021",
     type: "Mobile",
-  },
+    shortDesc: "Application mobile hybride permettant la saisie et la géolocalisation de constats sur le terrain sans réseau.",
+    tags: ["Ionic", "Angular", "Offline First", "GPS"],
+    context: "Les agents de terrain avaient besoin de saisir des constats et prendre des photos géolocalisées dans des zones blanches (sans réseau).",
+    challenge: "Gérer la persistance des données en local et la synchronisation (conflits) une fois le réseau retrouvé.",
+    solution: [
+      "Développement hybride avec Ionic & Angular pour un déploiement rapide iOS/Android.",
+      "Implémentation d'une base de données locale (SQLite) pour le mode Offline.",
+      "Module natif pour l'accès GPS et Caméra avec tagging des métadonnées."
+    ],
+    stack: ["Ionic", "Angular", "C# API", "SQLite", "Cordova"],
+    results: ["Suppression de la resaisie papier", "Fiabilisation des preuves photos (géoloc)", "Usage fluide en zone blanche"]
+  }
 ];
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.15 },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: 0.6, 
-      ease: "easeOut"
-    },
-  },
-};
-
 export default function Projects() {
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 400;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  const selectedProject = projects.find((p) => p.id === selectedId);
+
   return (
-    <motion.section 
-      id="projets" 
-      className="py-16 px-6 max-w-7xl mx-auto"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      variants={{
-        hidden: { opacity: 0, y: 50 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-      }}
-    >
-      <div className="flex flex-col md:flex-row md:items-end gap-4 mb-8">
-        <div className="flex-1">
-          <h2 className="text-accent font-mono text-sm mb-2 tracking-[0.2em] uppercase">Expertise en action</h2>
-          <h3 className="text-4xl md:text-5xl font-bold text-text-primary">
-            Projets <span className="text-accent underline decoration-1 underline-offset-[12px]">Réalisés</span>
-          </h3>
-        </div>
-        <p className="text-text-secondary max-w-md text-sm leading-relaxed border-l border-accent/30 pl-4 italic">
-          "Du développement Fullstack au pilotage de projets complexes, j'accompagne l'innovation au sein des pôles R&D."
-        </p>
-      </div>
-
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-      >
-        {projects.map((p, i) => (
-          <motion.div 
-            key={i} 
-            variants={itemVariants}
-            className="group relative flex flex-col h-full p-[1px] bg-gradient-to-b from-white/10 to-transparent rounded-[2rem] hover:from-accent/40 transition-all duration-500"
-          >
-            <div className="flex flex-col h-full p-8 rounded-[1.9rem] bg-[#0A0F1C] border border-white/5 group-hover:border-transparent transition-all">
-              
-              <div className="flex justify-between items-start mb-6">
-                <div className="p-2 bg-accent/10 rounded-lg text-accent text-xl">
-                  {p.type === "Fullstack" && <FiGlobe />}
-                  {p.type === "Microservices" && <FiCpu />}
-                  {p.type === "Mobile" && <FiTerminal />}
-                </div>
-                <span className="text-text-secondary/40 font-mono text-xs">{p.period}</span>
-              </div>
-
-              <div className="mb-6">
-                <h4 className="text-accent font-mono text-xs mb-1 uppercase tracking-tight">{p.company}</h4>
-                <h5 className="text-2xl font-bold text-text-primary group-hover:text-accent transition-colors leading-tight">
-                  {p.title}
-                </h5>
-              </div>
-
-              <p className="text-text-secondary text-sm mb-6 leading-relaxed">
-                {p.desc}
-              </p>
-
-              <ul className="space-y-3 mb-8 flex-grow">
-                {p.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs text-text-secondary/80">
-                    <span className="mt-1.5 w-1.5 h-1.5 bg-accent rounded-full shrink-0"></span>
-                    {detail}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-2 pt-6 border-t border-white/5">
-                {p.tags.map(tag => (
-                  <span 
-                    key={tag} 
-                    className="text-[10px] font-semibold px-2.5 py-1 bg-white/5 text-text-secondary/70 rounded-md border border-white/10"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+    <section id="projets" className="py-24 px-6 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* EN-TÊTE DE SECTION */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <div className="flex items-center gap-4 mb-4">
+               <span className="text-accent font-mono text-sm tracking-widest uppercase">03. Portfolio</span>
+               <div className="h-px bg-white/10 w-24"></div>
             </div>
-          </motion.div>
-        ))}
-      </motion.div>
-    </motion.section>
+            <h2 className="text-3xl md:text-5xl font-bold text-text-primary">
+              Projets & <span className="text-accent">Réalisations</span>
+            </h2>
+          </div>
+          
+          {/* Contrôles du Carrousel */}
+          <div className="flex gap-4">
+            <button onClick={() => scroll("left")} className="p-3 rounded-full border border-white/10 hover:bg-white/5 hover:border-accent text-text-secondary hover:text-accent transition-all">
+              <FiArrowLeft size={24} />
+            </button>
+            <button onClick={() => scroll("right")} className="p-3 rounded-full border border-white/10 hover:bg-white/5 hover:border-accent text-text-secondary hover:text-accent transition-all">
+              <FiArrowRight size={24} />
+            </button>
+          </div>
+        </div>
+
+        {/* CARROUSEL DE CARTES */}
+        <div 
+          ref={scrollRef}
+          className="flex gap-8 overflow-x-auto pb-12 snap-x snap-mandatory hide-scrollbar"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {projects.map((project) => (
+            <motion.div
+              key={project.id}
+              layoutId={`card-container-${project.id}`}
+              onClick={() => setSelectedId(project.id)}
+              className="min-w-[320px] md:min-w-[400px] snap-center cursor-pointer group"
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="h-full bg-[#0B1221] border border-white/5 rounded-3xl p-8 relative overflow-hidden hover:border-accent/50 transition-colors flex flex-col">
+                {/* Background Gradient */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/10 transition-colors"></div>
+
+                {/* Header Carte */}
+                <div className="flex justify-between items-start mb-8 relative z-10">
+                  <div className="p-3 bg-white/5 rounded-2xl text-accent border border-white/5 group-hover:border-accent/30 transition-colors">
+                    {project.type === "Fullstack" && <FiGlobe size={24} />}
+                    {project.type === "Microservices" && <FiCpu size={24} />}
+                    {project.type === "Mobile" && <FiSmartphone size={24} />}
+                    {project.type === "Bot" && <FiTerminal size={24} />}
+                  </div>
+                  <span className="font-mono text-xs text-text-secondary border border-white/10 px-2 py-1 rounded-md">
+                    {project.period}
+                  </span>
+                </div>
+
+                {/* Contenu Carte */}
+                <div className="relative z-10 flex-grow flex flex-col">
+                  <motion.h3 layoutId={`title-${project.id}`} className="text-2xl font-bold text-text-primary mb-2 group-hover:text-accent transition-colors">
+                    {project.title}
+                  </motion.h3>
+                  <p className="text-sm text-text-secondary mb-6 line-clamp-3">
+                    {project.shortDesc}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tags.map((tag, i) => (
+                      <span key={i} className="text-[10px] uppercase tracking-wider font-semibold px-2 py-1 bg-white/5 text-text-secondary rounded border border-white/5">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  {/* Bouton "Voir détails" toujours visible */}
+                  <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between text-sm font-medium text-text-primary group-hover:text-accent transition-colors">
+                    <span>Voir les détails</span>
+                    <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+          
+          {/* Carte "Placeholder" pour le futur */}
+          <div className="min-w-[320px] md:min-w-[400px] snap-center flex items-center justify-center">
+            <div className="h-full w-full border-2 border-dashed border-white/10 rounded-3xl flex flex-col items-center justify-center gap-4 text-text-secondary/40 p-8">
+              <span className="text-4xl">+</span>
+              <span className="font-mono text-sm uppercase tracking-widest">Prochain Projet</span>
+            </div>
+          </div>
+        </div>
+
+        {/* MODAL / DETAILS (AnimatePresence) */}
+        <AnimatePresence>
+          {selectedId && selectedProject && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedId(null)}
+                className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              />
+
+              {/* Modal Card */}
+              <motion.div
+                layoutId={`card-container-${selectedProject.id}`}
+                className="w-full max-w-4xl bg-[#0B1221] border border-white/10 rounded-3xl overflow-hidden relative z-10 max-h-[90vh] flex flex-col shadow-2xl shadow-black/50"
+              >
+                {/* Scrollable Content */}
+                <div className="overflow-y-auto custom-scrollbar p-8 md:p-12">
+                  
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setSelectedId(null); }}
+                    className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white transition-colors z-20"
+                  >
+                    <FiX size={24} />
+                  </button>
+
+                  <div className="grid md:grid-cols-3 gap-12">
+                    
+                    {/* Colonne Gauche : Info Header */}
+                    <div className="md:col-span-1 space-y-6">
+                      <div>
+                        <motion.h2 layoutId={`title-${selectedProject.id}`} className="text-3xl md:text-4xl font-bold text-text-primary mb-2">
+                          {selectedProject.title}
+                        </motion.h2>
+                        <p className="text-accent font-medium text-lg">{selectedProject.subtitle}</p>
+                      </div>
+                      
+                      <div className="space-y-4 pt-4 border-t border-white/10">
+                        <div>
+                          <p className="text-xs text-text-secondary uppercase tracking-widest mb-1">Entreprise</p>
+                          <p className="text-white font-mono">{selectedProject.company}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-text-secondary uppercase tracking-widest mb-1">Période</p>
+                          <p className="text-white font-mono">{selectedProject.period}</p>
+                        </div>
+                        <div>
+                           <p className="text-xs text-text-secondary uppercase tracking-widest mb-2">Tech Stack</p>
+                           <div className="flex flex-wrap gap-2">
+                              {selectedProject.stack.map(t => (
+                                <span key={t} className="px-2 py-1 bg-accent/10 border border-accent/20 text-accent text-xs rounded">
+                                  {t}
+                                </span>
+                              ))}
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Colonne Droite : Contenu Riche */}
+                    <div className="md:col-span-2 space-y-8">
+                      
+                      <div>
+                        <h3 className="flex items-center gap-2 text-xl font-bold text-white mb-4">
+                          <FiLayers className="text-accent" /> Contexte & Challenge
+                        </h3>
+                        <p className="text-text-secondary leading-relaxed mb-4">
+                          {selectedProject.context}
+                        </p>
+                        <div className="p-4 bg-red-500/5 border border-red-500/10 rounded-xl text-sm text-text-secondary/90 italic">
+                          "<span className="font-semibold text-red-400">Le Défi :</span> {selectedProject.challenge}"
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="flex items-center gap-2 text-xl font-bold text-white mb-4">
+                          {selectedProject.type === "Bot" ? <FiCommand className="text-accent" /> : <FiCpu className="text-accent" />}
+                          Architecture & Solutions
+                        </h3>
+                        <ul className="space-y-3">
+                          {selectedProject.solution.map((item, idx) => (
+                            <li key={idx} className="flex items-start gap-3 text-text-secondary">
+                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>
+                              <span className="leading-relaxed">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h3 className="flex items-center gap-2 text-xl font-bold text-white mb-4">
+                          <FiCheckCircle className="text-accent" /> Résultats Clés
+                        </h3>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          {selectedProject.results.map((res, idx) => (
+                            <div key={idx} className="p-4 bg-white/5 border border-white/5 rounded-xl flex items-center gap-3">
+                                <div className="w-1 h-8 bg-green-500 rounded-full"></div>
+                                <span className="text-sm font-medium text-white">{res}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
   );
 }
