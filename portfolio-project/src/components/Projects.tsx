@@ -1,6 +1,6 @@
 "use client";
 import { motion, Variants } from "framer-motion";
-import { FiExternalLink, FiTerminal, FiCpu, FiGlobe } from "react-icons/fi";
+import { FiTerminal, FiCpu, FiGlobe } from "react-icons/fi";
 
 type Project = {
   title: string;
@@ -54,7 +54,6 @@ const projects: Project[] = [
   },
 ];
 
-// Correction du type Error: Utilisation explicite de 'Variants'
 const containerVariants: Variants = {
   hidden: {},
   visible: {
@@ -69,15 +68,25 @@ const itemVariants: Variants = {
     y: 0,
     transition: { 
       duration: 0.6, 
-      ease: "easeOut" // TypeScript reconnaît maintenant cette valeur grâce au type Variants
+      ease: "easeOut"
     },
   },
 };
 
 export default function Projects() {
   return (
-    <section id="projets" className="py-24 px-6 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row md:items-end gap-4 mb-16">
+    <motion.section 
+      id="projets" 
+      className="py-16 px-6 max-w-7xl mx-auto"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+      }}
+    >
+      <div className="flex flex-col md:flex-row md:items-end gap-4 mb-8">
         <div className="flex-1">
           <h2 className="text-accent font-mono text-sm mb-2 tracking-[0.2em] uppercase">Expertise en action</h2>
           <h3 className="text-4xl md:text-5xl font-bold text-text-primary">
@@ -147,6 +156,6 @@ export default function Projects() {
           </motion.div>
         ))}
       </motion.div>
-    </section>
+    </motion.section>
   );
 }

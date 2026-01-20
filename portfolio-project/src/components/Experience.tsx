@@ -32,8 +32,18 @@ const variants: Variants = {
 
 export default function Experience() {
   return (
-    <section id="experiences" className="py-24 px-6 max-w-5xl mx-auto">
-      <h3 className="text-3xl font-bold mb-16 flex items-center gap-4 text-text-primary">
+    <motion.section 
+      id="experiences" 
+      className="py-16 px-6 max-w-5xl mx-auto"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+      }}
+    >
+      <h3 className="text-3xl font-bold mb-8 flex items-center gap-4 text-text-primary">
         <span className="text-accent italic font-mono text-xl">02.</span> Parcours Pro
       </h3>
       <div className="space-y-12">
@@ -59,6 +69,6 @@ export default function Experience() {
           </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }

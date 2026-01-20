@@ -8,10 +8,9 @@ export default function Hero() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12"
+      className="relative pt-24 pb-16 px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12"
     >
       <div className="flex-1 space-y-6">
-        {/* Statut & Localisation */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -24,8 +23,6 @@ export default function Hero() {
           </span>
           Disponible immédiatement sur Montpellier
         </motion.div>
-
-        {/* Nom & Titre */}
         <div className="space-y-2">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -39,13 +36,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-2xl md:text-3xl text-text-secondary font-semibold"
+            className="text-2xl md:text-3xl text-text-secondary font-medium"
           >
             Développeur Fullstack & Expert SIS
           </motion.p>
         </div>
 
-        {/* Bio orientée expertise */}
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,7 +51,6 @@ export default function Hero() {
           Diplômé d'un <strong>Master EISI (Bac+5)</strong>, je conçois des architectures logicielles robustes et pilote des projets complexes. Expert de l'écosystème <strong>.NET & React</strong>, j'allie rigueur technique et vision produit pour transformer vos idées en solutions performantes.
         </motion.p>
 
-        {/* Boutons d'action */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -74,7 +69,6 @@ export default function Hero() {
           </a>
         </motion.div>
 
-        {/* Stack Highlights rapide */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -88,7 +82,6 @@ export default function Hero() {
         </motion.div>
       </div>
       
-      {/* Visuel Profil */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}

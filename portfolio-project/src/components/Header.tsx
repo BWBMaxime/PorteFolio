@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin } from "react-icons/fa"; // Pense à installer react-icons : npm install react-icons
+import { FaGithub, FaLinkedin } from "react-icons/fa"; 
 
 export default function Header() {
   const navLinks = [
@@ -21,11 +21,10 @@ export default function Header() {
       className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-xl z-50 border-b border-white/5"
     >
       <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Logo & Identité */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative">
             <Image 
-              src="/img/unnamed (1).jpg"
+              src="/img/wolf.jpg"
               alt="Maxime Guichon - Expert SIS"
               width={42}
               height={42}
@@ -43,7 +42,6 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* Navigation Centrale (Desktop) */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
@@ -57,7 +55,6 @@ export default function Header() {
           ))}
         </div>
 
-        {/* Actions & Réseaux */}
         <div className="flex items-center gap-6">
           <div className="hidden sm:flex items-center gap-4 border-r border-white/10 pr-6">
             <a 

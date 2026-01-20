@@ -25,28 +25,13 @@ export default function Home() {
         className="fixed top-0 left-0 right-0 h-1 bg-accent z-[60] origin-left" 
         style={{ scaleX }} 
       />
-
       <Header />
-      
-      {/* 1. Introduction */}
       <Hero />
-      
-      {/* Conteneur avec un espacement constant pour la clarté */}
-      <div className="space-y-40 pb-20">
-        
-        {/* 2. Philosophie & Valeurs (Qui suis-je ?) */}
+      <div className="space-y-20 pb-20">
         <About />
-
-        {/* 3. Chronologie Professionnelle (Mon parcours) */}
         <Experience />
-
-        {/* 4. Réalisations Techniques (Ce que j'ai bâti) */}
         <Projects />
-
-        {/* 5. Expertise (Mon arsenal) */}
         <Skills />
-        
-        {/* 6. Contact */}
         <Contact />
       </div>
 

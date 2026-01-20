@@ -13,7 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Métadonnées optimisées pour le SEO et le recrutement
 export const metadata: Metadata = {
   title: "Maxime Guichon | Expert SIS & Développeur Fullstack",
   description: "Portfolio de Maxime Guichon, Expert en Informatique et Systèmes d'Information (Bac+5). Spécialisé en architecture .NET, React et pilotage de projets complexes à Montpellier.",
@@ -39,11 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#050505] text-[#F8FAFC] selection:bg-accent/30`}
       >
-        {/* MotionConfig global pour respecter les préférences système de l'utilisateur (accessibilité) */}
         <MotionConfig reducedMotion="user">
-          {/* Note : Le Header est déjà inclus dans page.tsx pour permettre 
-            des animations synchronisées avec le scroll de la page.
-          */}
           {children}
         </MotionConfig>
       </body>

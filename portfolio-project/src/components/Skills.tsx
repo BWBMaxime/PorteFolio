@@ -54,9 +54,18 @@ const itemVariants: Variants = {
 
 export default function Skills() {
   return (
-    <section id="competences" className="py-24 px-6 max-w-7xl mx-auto">
-      {/* Header de section */}
-      <div className="flex flex-col mb-16">
+    <motion.section 
+      id="competences" 
+      className="py-16 px-6 max-w-7xl mx-auto"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+      }}
+    >
+      <div className="flex flex-col mb-8">
         <h2 className="text-accent font-mono text-sm mb-2 tracking-[0.2em] uppercase">Expertise</h2>
         <div className="flex items-center gap-4">
           <h3 className="text-3xl md:text-4xl font-bold text-text-primary whitespace-nowrap">
@@ -107,7 +116,6 @@ export default function Skills() {
         ))}
       </motion.div>
 
-      {/* Expertise supplémentaire (Gouvernance/Management) */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -126,6 +134,6 @@ export default function Skills() {
           <p className="text-text-secondary text-xs uppercase tracking-widest mt-1">Audit / SWOT / Schéma Directeur</p>
         </div>
       </motion.div>
-    </section>
+    </motion.section>
   );
 }
