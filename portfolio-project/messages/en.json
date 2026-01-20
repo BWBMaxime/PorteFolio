@@ -1,0 +1,72 @@
+{
+  "Layout": {
+    "title": "Maxime Guichon - IT Expert",
+    "description": "Portfolio of Maxime Guichon, an expert in IT and information systems.",
+    "projects": "Projects",
+    "skills": "Skills",
+    "contact": "Contact",
+    "getInTouch": "Get in touch"
+  },
+  "Footer": {
+    "copyright": "© {year} - Maxime Guichon - SIS Expert (Master's Degree)"
+  },
+  "Hero": {
+    "availability": "Available immediately in Montpellier",
+    "name": "Maxime",
+    "surname": "Guichon",
+    "title": "Fullstack Web & Mobile Developer | SIS Expert",
+    "description": "An expert in Information Technology and Systems specializing in designing robust and sustainable solutions. Former work-study trainee at Arcade Informatique and SEPTEO.",
+    "seeProjects": "See my projects",
+    "myCv": "My CV",
+    "alt": "Maxime Guichon"
+  },
+  "Projects": {
+    "title": "Projects",
+    "subtitle": "Strategic",
+    "seeProject": "See project",
+    "items": [
+      {
+        "title": "Portal V2 - Architecture Redesign",
+        "company": "Arcade Informatique",
+        "desc": "Migration of a monolith to a modular architecture under .NET 9 and React 18 to improve scalability.",
+        "tags": ["React 18", ".NET 9", "TypeScript", "Architecture"]
+      },
+      {
+        "title": "eDAP Module - Waste Workflow",
+        "company": "Arcade Informatique",
+        "desc": "Design and development of a complex digital workflow meeting strict legal constraints.",
+        "tags": ["C#", "SQL Server", "Product Ownership"]
+      },
+      {
+        "title": "DEP Microservice - File Management",
+        "company": "SEPTEO",
+        "desc": "Development of a high-performance microservice with SQL optimization and rigorous unit testing.",
+        "tags": ["Angular 15", ".NET Core", "Dapper", "Docker"]
+      }
+    ]
+  },
+  "Skills": {
+    "title": "Skills",
+    "subtitle": "Technical",
+    "items": [
+      { "name": ".NET 9", "level": "90%" },
+      { "name": "React 18", "level": "85%" },
+      { "name": "TypeScript", "level": "80%" },
+      { "name": "Microservices Architecture", "level": "75%" },
+      { "name": "Docker", "level": "70%" },
+      { "name": "SQL Server", "level": "95%" }
+    ]
+  },
+  "Contact": {
+    "title": "Contact",
+    "subtitle": "Me",
+    "description": "I am open to new opportunities and collaborations. Feel free to contact me.",
+    "form": {
+      "name": "Your name",
+      "email": "Your email",
+      "message": "Your message",
+      "submit": "Send message"
+    },
+    "location": "Montpellier, France"
+  }
+}

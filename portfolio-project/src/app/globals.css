@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0f0f12; 
+  --color-primary: #1a1a1e;
+  --color-secondary: #252529;
+  --color-accent: #a855f7; 
+  --color-accent-hover: #9333ea;
+  --color-text-primary: #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+}
+
+body {
+  @apply bg-background text-text-primary antialiased transition-colors duration-300;
+}
+
+::selection {
+  @apply bg-accent/30 text-accent;
+}
