@@ -70,7 +70,7 @@ export default function Hero() {
             target="_blank"
             className="px-8 py-3 bg-transparent hover:bg-white/5 text-text-primary rounded-xl font-semibold border border-white/10 transition-all"
           >
-            Télécharger mon CVVVVVVV
+            Télécharger mon CVVVVVVVVVVVVVVVVVVVVVVVV
           </a>
         </motion.div>
 
