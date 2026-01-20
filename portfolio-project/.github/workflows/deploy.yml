@@ -1,0 +1,22 @@
+name: Deploy Portfolio
+
+on:
+  push:
+    branches:
+      - main  # Le déploiement se lance quand tu push sur la branche main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/ton-nom-de-repo  # REMPLACE PAR LE NOM DE TON DOSSIER
+            git pull origin main
+            npm install
+            npm run build
+            pm2 restart portfolio-next || pm2 start npm --name "portfolio-next" -- start
