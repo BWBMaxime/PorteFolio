@@ -66,11 +66,11 @@ export default function Hero() {
             Explorer mes projets
           </a>
           <a 
-            href="/CV_Maxime_Guichon.pdf" 
+            href="/documents/CV_2026-01-19_Maxime_Guichon.pdf" 
             target="_blank"
             className="px-8 py-3 bg-transparent hover:bg-white/5 text-text-primary rounded-xl font-semibold border border-white/10 transition-all"
           >
-            Télécharger mon CVVVVVVVVVVVVVVVVVVVVVVVV
+            Télécharger mon CV
           </a>
         </motion.div>
 
