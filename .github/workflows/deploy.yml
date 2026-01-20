@@ -16,7 +16,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/ton-nom-de-repo  # REMPLACE PAR LE NOM DE TON DOSSIER
+            cd ~/PorteFolio/portfolio-project
             git pull origin main
             npm install
             npm run build
