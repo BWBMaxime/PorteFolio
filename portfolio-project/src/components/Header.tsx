@@ -17,11 +17,11 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: "Profil", href: "#about" },
-    { name: "Logs", href: "#experiences" },
-    { name: "Portfolio", href: "#projets" },
-    { name: "Skills", href: "#competences" },
-    { name: "Contact", href: "#contact" },
+    { name: "Mon Profil", href: "#about" },
+    { name: "Parcours & Dîplomes", href: "#experiences" },
+    { name: "Projets & Réalisations", href: "#projets" },
+    { name: "Arsenal Technique", href: "#competences" },
+    { name: "Me Contacter", href: "#contact" },
   ];
 
   const socialLinks = [
