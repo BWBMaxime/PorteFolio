@@ -1,10 +1,9 @@
 "use client";
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiGlobe, FiCpu, FiSmartphone, FiX, FiArrowRight, FiArrowLeft, FiLayers, FiCheckCircle, FiTerminal, FiCommand } from "react-icons/fi";
+import { FiGlobe, FiCpu, FiSmartphone, FiX, FiArrowRight, FiArrowLeft, FiLayers, FiCheckCircle, FiTerminal, FiCommand, FiLayout } from "react-icons/fi";
 
 // --- TYPES ---
-// Ajout du type "Bot" pour Hati
 type ProjectType = "Fullstack" | "Microservices" | "Mobile" | "Bot";
 
 interface Project {
@@ -28,7 +27,27 @@ interface Project {
 // --- DATA ---
 const projects: Project[] = [
   {
-    id: 4, // ID en premier pour le mettre en avant (optionnel)
+    id: 5,
+    title: "Portfolio Interactif",
+    subtitle: "Vitrine Immersive & DevOps",
+    company: "Projet Personnel",
+    period: "2025",
+    type: "Fullstack",
+    shortDesc: "Conception de ce site web : une expérience immersive (Space HUD) couplée à une pipeline de déploiement continu sur VPS OVH.",
+    tags: ["Next.js 14", "CI/CD", "OVH", "Framer Motion"],
+    context: "Volonté de créer une identité numérique forte, dépassant le CV traditionnel. L'objectif était double : proposer une expérience utilisateur marquante et maîtriser la chaîne de déploiement complète (du code au serveur).",
+    challenge: "Allier design créatif (animations lourdes, glassmorphism) et performance web. Mettre en place une infrastructure de production autonome sur serveur dédié sans dépendre de solutions 'clés en main'.",
+    solution: [
+      "Développement Frontend sous Next.js 14 (App Router) avec TypeScript pour la robustesse.",
+      "Design System 'Space HUD' sur-mesure avec Tailwind CSS et animations Framer Motion (Layout Animations).",
+      "Configuration d'un VPS OVH (Ubuntu/Nginx) et mise en place d'un pipeline GitHub Actions pour le déploiement automatique.",
+      "Gestion du domaine personnalisé et sécurisation SSL (Certbot)."
+    ],
+    stack: ["Next.js 14", "TypeScript", "Tailwind", "Framer Motion", "GitHub Actions", "OVH VPS"],
+    results: ["Déploiement automatisé (Push-to-Deploy)", "Interface fluide et Responsive", "Maîtrise totale de l'infrastructure"]
+  },
+  {
+    id: 4,
     title: "Hati Bot",
     subtitle: "Orchestrateur Vocal & Automation",
     company: "Projet Communautaire",
