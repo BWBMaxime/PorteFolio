@@ -131,8 +131,8 @@ export default function Projects() {
   // Scroll Manuel Calibré
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      // 350px (largeur carte) + 32px (gap-8) = ~382px par cran
-      const scrollAmount = 380; 
+      // 300 est une valeur sûre pour défiler d'une carte sur la plupart des écrans
+      const scrollAmount = window.innerWidth < 768 ? 300 : 380;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth"
@@ -164,7 +164,7 @@ export default function Projects() {
           </div>
           
           {/* NAVIGATION BOUTONS */}
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4"> {/* Caché sur mobile car le swipe suffit */}
              <button 
                 onClick={() => scroll("left")}
                 className="p-3 rounded-full border border-white/10 bg-[#0B1221] hover:bg-white/5 hover:border-accent text-text-secondary hover:text-accent transition-all active:scale-95 shadow-lg"
@@ -183,16 +183,16 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* CARROUSEL MANUEL */}
+      {/* CARROUSEL MANUEL (Snap Scroll) */}
       <div className="w-full relative">
         
-        {/* Ombres latérales pour indiquer le scroll */}
-        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none md:hidden"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none md:hidden"></div>
+        {/* Ombres latérales pour indiquer le scroll (Mobile uniquement) */}
+        <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none md:hidden"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none md:hidden"></div>
 
         <div 
           ref={scrollRef}
-          className="flex gap-8 overflow-x-auto pb-12 px-6 hide-scrollbar snap-x snap-mandatory cursor-grab active:cursor-grabbing"
+          className="flex gap-6 md:gap-8 overflow-x-auto pb-12 px-6 hide-scrollbar snap-x snap-mandatory cursor-grab active:cursor-grabbing"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {projects.map((project) => (
@@ -200,8 +200,10 @@ export default function Projects() {
               key={project.id}
               layoutId={`card-container-${project.id}`}
               onClick={() => setSelectedId(project.id)}
-              // TAILLE RÉDUITE ICI : min-w-[280px] sur mobile et md:min-w-[350px] sur desktop
-              className="min-w-[280px] md:min-w-[350px] flex-shrink-0 snap-center cursor-pointer group"
+              // --- TAILLE OPTIMISÉE ICI ---
+              // Mobile : w-[85vw] (85% de la largeur écran) -> Permet de voir le bout de la suivante
+              // Desktop : min-w-[350px]
+              className="w-[85vw] max-w-[350px] md:min-w-[350px] flex-shrink-0 snap-center cursor-pointer group"
               whileHover={{ y: -8, scale: 1.01 }}
               transition={{ duration: 0.3 }}
             >
@@ -256,7 +258,7 @@ export default function Projects() {
           ))}
 
           {/* Carte Placeholder (Fin de liste) */}
-          <div className="min-w-[280px] md:min-w-[350px] flex-shrink-0 snap-center flex items-center justify-center">
+          <div className="w-[85vw] max-w-[350px] md:min-w-[350px] flex-shrink-0 snap-center flex items-center justify-center">
              <div className="h-full w-full border-2 border-dashed border-white/10 rounded-3xl flex flex-col items-center justify-center gap-3 text-text-secondary/40 p-8 hover:border-white/20 transition-colors cursor-default">
                 <span className="text-3xl">+</span>
                 <span className="font-mono text-xs uppercase tracking-widest">Prochain Projet</span>
