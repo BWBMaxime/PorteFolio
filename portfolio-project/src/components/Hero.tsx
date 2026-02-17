@@ -64,7 +64,7 @@ export default function Hero() {
             </motion.h1>
             <motion.p variants={itemVariants} className="text-xl md:text-2xl text-text-secondary font-medium">
               Maxime Guichon — Architecte Logiciel & Développeur Fullstack
-            </motion.p>
+            </motion.p>  
           </div>
 
           <motion.p variants={itemVariants} className="text-text-secondary text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
